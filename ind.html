@@ -381,3 +381,67 @@ this is your last chance
             <i class="bx bx-chevron-right text-3xl"></i>
         </button>
     </div>
+
+    IMPORTANT
+    IMPORTANT
+    IMPORTANT
+    IMPORTANT
+    IMPORTANT
+
+    <script>
+        const scrollLeftBtn = document.getElementById("scrollLeft");
+        const scrollRightBtn = document.getElementById("scrollRight");
+        const videoList = document.querySelector(".videoList");
+
+        const scrollAmount = 500; // Adjust this for how far it scrolls with each click
+
+        // Update button states
+        function updateButtonStates() {
+            const maxScrollLeft = videoList.scrollWidth - videoList.clientWidth;
+            scrollLeftBtn.disabled = videoList.scrollLeft <= 0;
+            scrollRightBtn.disabled = videoList.scrollLeft >= maxScrollLeft;
+
+            // Add or remove `opacity-50` class for visual feedback
+            scrollLeftBtn.classList.toggle("opacity-50", scrollLeftBtn.disabled);
+            scrollRightBtn.classList.toggle("opacity-50", scrollRightBtn.disabled);
+        }
+
+        // Scroll event listeners
+        scrollLeftBtn.addEventListener("click", () => {
+            videoList.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+            setTimeout(updateButtonStates, 300); // Delay to sync with scroll
+        });
+
+        scrollRightBtn.addEventListener("click", () => {
+            videoList.scrollBy({ left: scrollAmount, behavior: "smooth" });
+            setTimeout(updateButtonStates, 300);
+        });
+
+        // Initial state
+        updateButtonStates();
+
+    </script>
+    <script>
+        // Select all lazy videos
+        const videos = document.querySelectorAll('.lazy-video');
+        videos.forEach((video) => {
+            video.addEventListener('click', function () {
+                // If video doesn't already have a src, add it
+                if (!video.getAttribute('src')) {
+                    video.setAttribute('src', video.getAttribute('data-src'));
+
+                    // Automatically play the video
+                    video.play().catch((error) => {
+                        console.error('Video play failed:', error);
+                    });
+                }
+                // Add controls
+                video.setAttribute('controls', true);
+            });
+
+            // Remove controls when video is paused
+            video.addEventListener('pause', function () {
+                video.removeAttribute('controls');
+            });
+        });
+    </script>
